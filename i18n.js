@@ -105,7 +105,18 @@
                     parts = locale.split("-"),
                     toLoad = [],
                     value = {},
-                    i, part, current = "";
+                    i, part, current = "",
+                    pathLocaleRegExp = /\/([a-zA-Z]{2}(-[a-zA-Z]{2})?)\//,
+                    pathLocale = "";
+
+                //Assumes that the first part of the path always contains a locale string
+                try {
+                    pathLocale = window.location.pathname.match(pathLocaleRegExp)[1];
+                } catch(e) {
+                    console.warn("Couldn't match locale at start of URL path `" +
+                                 window.location.pathname +
+                                 "'. Falling back to navigator locale.");
+                }
 
                 //If match[5] is blank, it means this is the top bundle definition,
                 //so it does not have to be handled. Locale-specific requests
@@ -121,9 +132,10 @@
                     locale = masterConfig.locale;
                     if (!locale) {
                         locale = masterConfig.locale =
-                            typeof navigator === "undefined" ? "root" :
+                            pathLocale.toLowerCase() ||
+                            (typeof navigator === "undefined" ? "root" :
                             (navigator.language ||
-                             navigator.userLanguage || "root").toLowerCase();
+                             navigator.userLanguage || "root")).toLowerCase();
                     }
                     parts = locale.split("-");
                 }
