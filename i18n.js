@@ -4,7 +4,7 @@
  * see: http://github.com/requirejs/i18n for details
  */
 /*jslint regexp: true */
-/*global require: false, navigator: false, define: false */
+/*global require: false, window: false, navigator: false, define: false */
 
 /**
  * This plugin handles i18n! prefixed modules. It does the following:
