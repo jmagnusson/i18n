@@ -83,7 +83,8 @@
     }
 
     define(['module'], function (module) {
-        var masterConfig = module.config();
+        var wloc = typeof window !== "undefined" ? window.location : {},
+            masterConfig = module.config();
 
         return {
             version: '2.0.1',
@@ -111,11 +112,10 @@
 
                 //Assumes that the first part of the path always contains a locale string
                 try {
-                    pathLocale = window.location.pathname.match(pathLocaleRegExp)[1];
+                    pathLocale = wloc.pathname.match(pathLocaleRegExp)[1];
                 } catch(e) {
                     console.warn("Couldn't match locale at start of URL path `" +
-                                 window.location.pathname +
-                                 "'. Falling back to navigator locale.");
+                                 wloc.pathname + "'. Falling back to navigator locale.");
                 }
 
                 //If match[5] is blank, it means this is the top bundle definition,
